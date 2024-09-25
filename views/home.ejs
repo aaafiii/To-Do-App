@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    table {
+      margin: 20px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 5px;
+    }
+  </style>
+  <body>
+    <h1>Home Page</h1>
+    <form action="/todo" method="POST">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" />
+      <br />
+      <label for="description">Description</label>
+      <input type="text" name="description" id="description" />
+      <br />
+      <button type="submit">Add Todo</button>
+    </form>
+
+    <table border="1">
+      <tr>
+        <td>S.No</td>
+        <td>Title</td>
+        <td>Description</td>
+      </tr>
+      <% if (locals.todos) { %> <%todos.forEach((todos,index) => { %>
+      <tr>
+        <td><%= index+1 %></td>
+        <form action="/todo/edit?id=<%= todos._id %>" method="POST">
+          <td>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value="<%= todos.title %>"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              value="<%= todos.description %>"
+            />
+          </td>
+          <td>
+            <select name="status" id="status">
+              <option value="<%= todos.status %>"><%= todos.status %></option>
+              <option value="inprogess">inprogess</option>
+              <option value="completed">completed</option>
+              <!-- incompleted, inprogess,completed -->
+            </select>
+          </td>
+          <td><button type="submit">Edit</button></td>
+        </form>
+        <td><a href="/todo/delete?id=<%= todos._id %>">Delete</a></td>
+      </tr>
+      <% }); %> <%} %>
+    </table>
+  </body>
+</html>
